@@ -7,12 +7,14 @@
 %token NUMBER
 %left '+' '-' /* left associative, same precedence */
 %left '*' '/' /* left assoc., higher precedence */
+%left UNARYMINUS /* new */
 %%
 list: /* nothing */
     | list '\n'
     | list expr '\n' { printf("\t%.8g\n", $2); }
     ;
 expr: NUMBER { $$ = $1; }
+    | '-' expr { $$ = -$2; }
     | expr '+' expr { $$ = $1 + $3; }
     | expr '-' expr { $$ = $1 - $3; }
     | expr '*' expr { $$ = $1 * $3; }
