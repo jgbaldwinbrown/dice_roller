@@ -3,10 +3,12 @@
 # include "hoc1h.h"
 # include <stdio.h>
 # include <ctype.h>
+# include <math.h>
 %}
 %token NUMBER
 %left '+' '-' /* left associative, same precedence */
 %left '*' '/' /* left assoc., higher precedence */
+%right '^' /* right assoc., higher precedence */
 %left UNARYMINUS /* new */
 %%
 list: /* nothing */
@@ -14,11 +16,12 @@ list: /* nothing */
     | list expr '\n' { printf("\t%.8g\n", $2); }
     ;
 expr: NUMBER { $$ = $1; }
-    | '-' expr { $$ = -$2; }
+    | '-' expr %prec UNARYMINUS { $$ = -$2; }
     | expr '+' expr { $$ = $1 + $3; }
     | expr '-' expr { $$ = $1 - $3; }
     | expr '*' expr { $$ = $1 * $3; }
     | expr '/' expr { $$ = $1 / $3; }
+    | expr '^' expr { $$ = pow($1, $3); }
     | '(' expr ')' { $$ = $2; }
     ;
 %%
