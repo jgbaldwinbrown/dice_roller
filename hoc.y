@@ -12,6 +12,7 @@
 %left '*' '/' /* left assoc., higher precedence */
 %right '^' /* right assoc., higher precedence */
 %left UNARYMINUS /* new */
+%left 'd' /*die roll*/
 %%
 list: /* nothing */
     | list '\n'
@@ -24,6 +25,7 @@ expr: NUMBER { $$ = $1; }
     | expr '*' expr { $$ = $1 * $3; }
     | expr '/' expr { $$ = $1 / $3; }
     | expr '^' expr { $$ = pow($1, $3); }
+    | expr 'd' expr { $$ = roll($1, $3); }
     | '(' expr ')' { $$ = $2; }
     | 'q' { exit(0); }
     ;
@@ -37,6 +39,27 @@ int main(int argc, char *argv[]) {
     progname = argv[0];
     yyparse();
     return(0);
+}
+
+int uniform_distribution(int rangeLow, int rangeHigh) {
+    int range = rangeHigh - rangeLow + 1;
+    int copies=RAND_MAX/range;
+    int limit=range*copies;    
+    int myRand=-1;
+    while( myRand<0 || myRand>=limit){
+        myRand=rand();
+    }
+    return(myRand/copies+rangeLow);
+}
+
+double roll(double ndice, double dicesize) {
+    int ndice_i = (int) ndice;
+    int dicesize_i = (int) dicesize;
+    int sum = 0;
+    for (int i=0; i<ndice_i; i++) {
+        sum += uniform_distribution(1, dicesize_i);
+    }
+    return((double) sum);
 }
 
 int yylex() {
