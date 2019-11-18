@@ -4,8 +4,10 @@
 # include <stdio.h>
 # include <ctype.h>
 # include <math.h>
+# include <stdlib.h>
 %}
 %token NUMBER
+%left 'q'
 %left '+' '-' /* left associative, same precedence */
 %left '*' '/' /* left assoc., higher precedence */
 %right '^' /* right assoc., higher precedence */
@@ -23,6 +25,7 @@ expr: NUMBER { $$ = $1; }
     | expr '/' expr { $$ = $1 / $3; }
     | expr '^' expr { $$ = pow($1, $3); }
     | '(' expr ')' { $$ = $2; }
+    | 'q' { exit(0); }
     ;
 %%
     /* end of grammar */
