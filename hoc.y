@@ -5,6 +5,7 @@
 # include <ctype.h>
 # include <math.h>
 # include <stdlib.h>
+#include <time.h>
 %}
 %token NUMBER
 %left 'q'
@@ -36,6 +37,7 @@ char *progname;
 int lineno = 1;
 
 int main(int argc, char *argv[]) {
+    srand(time(0));
     progname = argv[0];
     yyparse();
     return(0);
