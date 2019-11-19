@@ -1,6 +1,6 @@
 %{
 #define YYSTYPE double /* data type of yacc stack */
-# include "hoc1h.h"
+# include "roll.h"
 # include <stdio.h>
 # include <ctype.h>
 # include <math.h>

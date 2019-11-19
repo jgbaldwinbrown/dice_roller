@@ -1,5 +1,5 @@
-all: hoc
+all: roll
 
-hoc: hoc.y
-	yacc hoc.y
-	gcc -Wall -Wpedantic -Ihoc1h y.tab.c -o hoc1 -lm
+roll: roll.y
+	yacc roll.y
+	gcc -Wall -Wpedantic -Iroll1h y.tab.c -o roll1 -lm
