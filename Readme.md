@@ -61,7 +61,7 @@ like the following:
 q
 ```
 
-`roll` can also be run in batch mode by simply directing set of commands to standard input in one of the two following ways:
+`roll` can also be run in batch mode by simply directing a set of commands to standard input in one of the two following ways:
 
 ```
 cat input.txt | roll
