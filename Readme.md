@@ -26,7 +26,7 @@ or can be added to a directory included in the user's PATH and run like so:
 roll
 ```
 
-### Usage
+## Usage
 
 `roll` is a small language that does simple arithmetic (plus, minus, times, divide)
 on `double`s. Expressions can be nested arbitrarily deeply with parentheses, and
