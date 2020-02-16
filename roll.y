@@ -43,11 +43,11 @@ int main(int argc, char *argv[]) {
     return(0);
 }
 
-int uniform_distribution(int rangeLow, int rangeHigh) {
-    int range = rangeHigh - rangeLow + 1;
-    int copies=RAND_MAX/range;
-    int limit=range*copies;    
-    int myRand=-1;
+long long uniform_distribution(long long rangeLow, long long rangeHigh) {
+    long long range = rangeHigh - rangeLow + 1;
+    long long copies=RAND_MAX/range;
+    long long limit=range*copies;    
+    long long myRand=-1;
     while( myRand<0 || myRand>=limit){
         myRand=rand();
     }
@@ -55,10 +55,10 @@ int uniform_distribution(int rangeLow, int rangeHigh) {
 }
 
 double roll(double ndice, double dicesize) {
-    int ndice_i = (int) ndice;
-    int dicesize_i = (int) dicesize;
-    int sum = 0;
-    for (int i=0; i<ndice_i; i++) {
+    long long ndice_i = (int) ndice;
+    long long dicesize_i = (int) dicesize;
+    long long sum = 0;
+    for (size_t i=0; i<ndice_i; i++) {
         sum += uniform_distribution(1, dicesize_i);
     }
     return((double) sum);

@@ -1,5 +1,5 @@
 int yylex();
 void yyerror(char *s);
 void warning(char *s, char *t);
-int uniform_distribution(int rangeLow, int rangeHigh);
+long long uniform_distribution(long long rangeLow, long long rangeHigh);
 double roll(double ndice, double dicesize);
