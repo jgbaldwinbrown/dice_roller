@@ -5,7 +5,7 @@
 # include <ctype.h>
 # include <math.h>
 # include <stdlib.h>
-#include <time.h>
+# include <time.h>
 %}
 %token NUMBER
 %left 'q'
