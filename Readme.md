@@ -50,7 +50,31 @@ with the syntax `[0-9]+d[0-9]`, like so:
 	60
 ```
 
-In addition, a single `q` on a line will quit the program. So, a typical session might look
+The special command `D` allows for rolling multiple dice and keeping the `m` number of lowest
+dice or the `M` number of highest dice:
+
+```
+3D6m2
+	5
+3D6M2
+	11
+```
+
+The command `p` toggles printing of individual die rolls:
+
+```
+3d6
+	10
+p
+	0
+3d6
+4
+3
+3
+	10
+```
+
+A single `q` on a line will quit the program. So, a typical session might look
 like the following:
 
 ```
