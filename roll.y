@@ -36,7 +36,7 @@ expr: NUMBER { $$ = $1; }
     | expr 'd' expr { $$ = conditional_print_roll($1, $3, rng, print_rolls); }
     | '(' expr ')' { $$ = $2; }
     | 'q' { exit(0); }
-    | 'p' { print_rolls = !print_rolls; }
+    | 'p' { print_rolls = !print_rolls; $$ = 0; }
     ;
 %%
     /* end of grammar */
