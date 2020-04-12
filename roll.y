@@ -53,7 +53,7 @@ int main(int argc, char *argv[]) {
 }
 
 long long uniform_distribution(long long rangeLow, long long rangeHigh, gsl_rng *rng) {
-    long long out = ((long long) gsl_rng_uniform_int(rng, rangeHigh-rangeLow)) + rangeLow;
+    long long out = ((long long) gsl_rng_uniform_int(rng, (rangeHigh-rangeLow) + 1)) + rangeLow;
     return(out);
 }
 
