@@ -7,9 +7,12 @@
 # include <stdlib.h>
 # include <time.h>
 # include <gsl/gsl_rng.h>
+# include <stdbool.h>
 
 /* globals */
 gsl_rng *rng;
+bool print_rolls;
+/* end globals */
 %}
 %token NUMBER
 %left 'q'
@@ -30,9 +33,10 @@ expr: NUMBER { $$ = $1; }
     | expr '*' expr { $$ = $1 * $3; }
     | expr '/' expr { $$ = $1 / $3; }
     | expr '^' expr { $$ = pow($1, $3); }
-    | expr 'd' expr { $$ = roll($1, $3, rng); }
+    | expr 'd' expr { $$ = conditional_print_roll($1, $3, rng, print_rolls); }
     | '(' expr ')' { $$ = $2; }
     | 'q' { exit(0); }
+    | 'p' { print_rolls = !print_rolls; }
     ;
 %%
     /* end of grammar */
@@ -63,6 +67,21 @@ double roll(double ndice, double dicesize, gsl_rng *rng) {
     long long sum = 0;
     for (size_t i=0; i<ndice_i; i++) {
         sum += uniform_distribution(1, dicesize_i, rng);
+    }
+    return((double) sum);
+}
+
+double conditional_print_roll(double ndice, double dicesize, gsl_rng *rng, bool print_rolls) {
+    long long ndice_i = (int) ndice;
+    long long dicesize_i = (int) dicesize;
+    long long sum = 0;
+    long long aroll = 0;
+    for (size_t i=0; i<ndice_i; i++) {
+        aroll = uniform_distribution(1, dicesize_i, rng);
+        if (print_rolls) {
+            printf("%lld\n", aroll);
+        }
+        sum += aroll;
     }
     return((double) sum);
 }
