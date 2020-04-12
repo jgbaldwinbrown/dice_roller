@@ -6,6 +6,10 @@
 # include <math.h>
 # include <stdlib.h>
 # include <time.h>
+# include <gsl/gsl_rng.h>
+
+/* globals */
+gsl_rng *rng;
 %}
 %token NUMBER
 %left 'q'
@@ -26,7 +30,7 @@ expr: NUMBER { $$ = $1; }
     | expr '*' expr { $$ = $1 * $3; }
     | expr '/' expr { $$ = $1 / $3; }
     | expr '^' expr { $$ = pow($1, $3); }
-    | expr 'd' expr { $$ = roll($1, $3); }
+    | expr 'd' expr { $$ = roll($1, $3, rng); }
     | '(' expr ')' { $$ = $2; }
     | 'q' { exit(0); }
     ;
@@ -37,29 +41,28 @@ char *progname;
 int lineno = 1;
 
 int main(int argc, char *argv[]) {
-    srand(time(0));
+    rng = gsl_rng_alloc(gsl_rng_taus);
+    gsl_rng_set(rng, time(0));
+    
     progname = argv[0];
+    
     yyparse();
+    
+    gsl_rng_free(rng);
     return(0);
 }
 
-long long uniform_distribution(long long rangeLow, long long rangeHigh) {
-    long long range = rangeHigh - rangeLow + 1;
-    long long copies=RAND_MAX/range;
-    long long limit=range*copies;    
-    long long myRand=-1;
-    while( myRand<0 || myRand>=limit){
-        myRand=rand();
-    }
-    return(myRand/copies+rangeLow);
+long long uniform_distribution(long long rangeLow, long long rangeHigh, gsl_rng *rng) {
+    long long out = ((long long) gsl_rng_uniform_int(rng, (rangeHigh-rangeLow) + 1)) + rangeLow;
+    return(out);
 }
 
-double roll(double ndice, double dicesize) {
+double roll(double ndice, double dicesize, gsl_rng *rng) {
     long long ndice_i = (int) ndice;
     long long dicesize_i = (int) dicesize;
     long long sum = 0;
     for (size_t i=0; i<ndice_i; i++) {
-        sum += uniform_distribution(1, dicesize_i);
+        sum += uniform_distribution(1, dicesize_i, rng);
     }
     return((double) sum);
 }
